@@ -1,0 +1,119 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.parsqube.exist</groupId>
+	<artifactId>user-admin</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+	<name>Benutzerverwaltung</name>
+	<description>Benutzerverwaltung mit Unterstützung für erweiterte Attribute</description>
+
+	<inceptionYear>2016</inceptionYear>
+
+  <organization>
+    <name>parsQube GmbH</name>
+    <url>http://parsqube.de/</url>
+  </organization>
+
+  <scm>
+    <connection>scm:git:git@perseus:de/parsqube/exist/user-admin</connection>
+  	<developerConnection>scm:git:git@perseus:de/parsqube/exist/user-admin</developerConnection>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>parsqube-internal</id>
+      <url>http://perseus.fritz.box/archiva/repository/internal/</url>
+    </repository>
+  </distributionManagement>
+
+  <properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.xar>${project.build.directory}/xar</project.build.xar>
+		<project.xar>${project.build.directory}/${project.artifactId}-${project.version}.xar</project.xar>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+  	<xar.target>user-admin2</xar.target>
+  	<xar.name>http://parsqube.de/ifv/user-admin</xar.name>
+		<xar.status>alpha</xar.status>
+		<xar.author>parsQube GmbH</xar.author>
+		<xar.license />
+
+		<exist.version>2.2</exist.version>
+
+	</properties>
+
+	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/xar</directory>
+				<filtering>false</filtering>
+				<targetPath>${project.build.xar}</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/filtered-xar</directory>
+				<filtering>true</filtering>
+				<targetPath>${project.build.xar}</targetPath>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<mkdir dir="${project.build.directory}" />
+								<mkdir dir="${project.build.xar}/${project.artifactId}/" />
+								<zip basedir="${project.build.xar}" destfile="${project.xar}" excludes="${project.build.directory}/*, data/main/*.xml, data/attachments/*/, incoming/control/*.xml, incoming/data/*/**, tmp/ " />
+								<attachartifact file="${project.xar}" type="xar" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.daisy.maven</groupId>
+				<artifactId>xspec-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<goals><goal>test</goal></goals>
+					</execution>
+				</executions>
+				<configuration>
+					<testSourceDirectory>src/test/xspec</testSourceDirectory>
+				</configuration>
+			</plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.9.4</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>eXistDB</id>
+			<url>https://raw.github.com/eXist-db/mvn-repo/master/</url>
+		</repository>
+	</repositories>
+
+</project>

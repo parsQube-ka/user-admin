@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>${project.description}</description>
+    <author>${xar.author}</author>
+    <website>${project.organization.url}</website>
+    <status>${xar.status}</status>
+    <license>${xar.license}</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>${xar.target}</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+</meta>
