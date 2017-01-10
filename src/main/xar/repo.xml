@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Benutzerverwaltung mit Unterstützung für erweiterte Attribute</description>
+    <author>parsQube GmbH</author>
+    <website>http://parsqube.de/</website>
+    <status>alpha</status>
+    <license/>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>user-admin2</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+    <deployed>2016-12-23T15:06:41.42+01:00</deployed>
+</meta>

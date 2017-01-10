@@ -11,8 +11,11 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
  : The following modules provide functions which will be called by the 
  : templating.
  :)
+
 import module namespace config="http://parsqube.de/ifv/user-admin/config" at "config.xqm";
 import module namespace app="http://parsqube.de/ifv/user-admin/templates" at "app.xqm";
+import module namespace login="http://parsqube.de/ifv/user-admin/login" at "login.xqm";
+import module namespace user="http://parsqube.de/ifv/user-admin/user" at "user.xqm";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 

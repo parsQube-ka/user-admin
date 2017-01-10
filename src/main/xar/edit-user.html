@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label for="username" data-template="user:get-username">Username:</label>
+            </div>
+            <div class="form-group">
+                <label for="email">E-Mail:</label>
+                <input type="text" name="email" id="email" class="input-xlarge form-control" data-template="user:get-email" placeholder="email"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" name="login" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
