@@ -20,8 +20,14 @@ function login:password($node as node(), $model as map(*), $password as xs:strin
   attribute value {$password}
 };
 
+declare function login:error($node as node(), $model as map(*)) {
+  let $error := request:get-attribute('login-error')
+  return if (exists($error))
+    then element {node-name($node)} { $node/@*, $error }
+    else ()
+};
+
 declare function login:login($exist-path,$id){
-    (util:log('info', "try to login")),
     let $username := request:get-parameter("username",())
     let $password := request:get-parameter("password",())
     return
@@ -29,12 +35,12 @@ declare function login:login($exist-path,$id){
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="list-users.html"/>
     </dispatch>
-    else if(not($username eq 'admin')) then (util:log('info', "login as non-admin"))
+    else if(not($username eq 'admin')) then (request:set-attribute('login-error', 'Please login with dba account.'))
     else if(xmldb:login($config:app-root,$username,$password,true())) then (
         util:log('info', "login successsful"),
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="list-users.html"/>
     </dispatch>
     )
-    else (util:log('info', "login not successsful"))
+    else (request:set-attribute('login-error', 'Login failed. Please try again with the right password.'))
 };

@@ -42,28 +42,16 @@ else if (not(sm:id()//sm:username[. = 'admin'])) then
                 </forward>
             </view>
         </dispatch>
-        
-else if ($exist:resource eq "edit-user.html") then(
-    if(empty(request:get-parameter("email",()))) then 
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="edit-user.html"/>
-            <view>
-                <forward url="{$exist:controller}/modules/view.xql">
-                    <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
-                    <set-attribute name="$exist:controller" value="{$exist:controller}"/>
-                    <set-header name="Cache-Control" value="no-cache"/>
-                </forward>
-            </view>
-        </dispatch>
-    else
-        user:save-user(request:get-parameter("username",()),request:get-parameter("email",()))
-    )
 
 else if (ends-with($exist:resource, ".html")) then
     (: the html page is run through view.xql to expand templates :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <view>
-            <forward url="{$exist:controller}/modules/view.xql"/>
+            <forward url="{$exist:controller}/modules/view.xql">
+                    <set-attribute name="$exist:prefix" value="{$exist:prefix}"/>
+                    <set-attribute name="$exist:controller" value="{$exist:controller}"/>
+                    <set-header name="Cache-Control" value="no-cache"/>
+            </forward>
         </view>
 		<error-handler>
 			<forward url="{$exist:controller}/error-page.html" method="get"/>
