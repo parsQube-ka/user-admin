@@ -67,8 +67,9 @@ declare function user:get-timezone($node as node(), $model as map(*)){
     </select>   
 };
 
-declare function user:get-groups($node as node(), $model as map(*)){
+declare function user:get-group($node as node(), $model as map(*)){
   <select class="form-control input-sm" id="usergroup" name="usergroup" required="required">
+    <option disabled="disabled" selected="selected">Set user primary here</option>
     {
      let $groups := sm:list-groups()
      for $group in $groups
@@ -76,6 +77,17 @@ declare function user:get-groups($node as node(), $model as map(*)){
          <option>{$group}</option>
     }
   </select>
+};
+
+declare function user:get-groups($node as node(), $model as map(*)){
+    <select class="form-control" multiple="multiple" id="usergroups" name="usergroups" size="5">
+    {
+     let $groups := sm:list-groups()
+     for $group in $groups
+     return
+         <option>{$group}</option>
+    }
+    </select>
 };
 
 declare function user:list-users($node as node(), $model as map(*)){
@@ -108,7 +120,7 @@ return <tr>
 </table>
 };
 
-declare function user:save-user($username as xs:string, $email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $password as xs:string){
+declare function user:save-user($username as xs:string, $email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $password as xs:string, $add-to as xs:string*, $remove-from as xs:string*){
     sm:set-account-metadata($username,xs:anyURI("http://axschema.org/namePerson/first"),$firstname),
     sm:set-account-metadata($username,xs:anyURI("http://axschema.org/namePerson/last"),$lastname),
     sm:set-account-metadata($username,xs:anyURI("http://axschema.org/namePerson"),$fullname),
@@ -116,6 +128,18 @@ declare function user:save-user($username as xs:string, $email as xs:string, $fi
     sm:set-account-metadata($username,xs:anyURI("http://axschema.org/pref/language"),$language),
     sm:set-account-metadata($username,xs:anyURI("http://axschema.org/pref/timezone"),$timezone),
     sm:set-account-metadata($username,xs:anyURI("http://exist-db.org/security/description"),$description),
+    if(not(empty($add-to)))
+    then(
+        for $target in $add-to
+        return
+        sm:add-group-member($target,$username))
+        else(),
+    if(not(empty($remove-from)))
+    then(
+        for $target in $remove-from
+        return
+        sm:remove-group-member($target,$username))
+        else(),    
     if(not(empty($password))) then (
         if(not($password eq '')) then (sm:passwd($username,$password))
         else()
@@ -123,14 +147,15 @@ declare function user:save-user($username as xs:string, $email as xs:string, $fi
     else ()
 };
 
-declare function user:create-user($username as xs:string,$password as xs:string,$group as xs:string,$email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string){
-  sm:create-account($username,$password,$group,()),
-  user:save-user($username,$email,$firstname,$lastname,$fullname,$language,$timezone,$description,$password)
+declare function user:create-user($username as xs:string,$password as xs:string,$group as xs:string,$groups as xs:string*,$email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $add-to as xs:string*, $remove-from as xs:string*){
+  sm:create-account($username,$password,$group,$groups),
+  user:save-user($username,$email,$firstname,$lastname,$fullname,$language,$timezone,$description,$password,$add-to,$remove-from)
 };
 
 declare function user:create-user($node as node(), $model as map(*)){
 let $username := request:get-parameter("username",())
 let $group := request:get-parameter("usergroup",())
+let $groups := request:get-parameter("usergroups",())
 let $firstname := request:get-parameter("firstname",())
 let $lastname := request:get-parameter("lastname",())
 let $fullname := request:get-parameter("fullname",())
@@ -139,8 +164,10 @@ let $language := request:get-parameter("language",())
 let $timezone := request:get-parameter("timezone",())
 let $password := request:get-parameter("password1",())
 let $description := request:get-parameter("description",())
+let $add-to := request:get-parameter("availableGroups",())
+let $remove-from := request:get-parameter("userGroups",())
 return
-    user:create-user($username,$password,$group,$email,$firstname,$lastname,$fullname,$language,$timezone,$description),
+    user:create-user($username,$password,$group,$groups,$email,$firstname,$lastname,$fullname,$language,$timezone,$description,$add-to,$remove-from),
 
 let $username := request:get-parameter("username",())
 return
@@ -171,3 +198,29 @@ declare function user:delete-user($node as node(), $model as map(*)){
         <a href="list-users.html" class="btn btn-info">Back to user list.</a>
     </div>
 };
+
+declare function user:get-available-groups($node as node(), $model as map(*)){
+    <select multiple="multiple" class="form-control" name="availableGroups" id="availableGroups">{
+    let $username := request:get-parameter('username',())
+    let $groups := sm:list-groups()
+    let $usergroups := sm:get-user-groups($username)
+    for $group in $groups
+    return
+        if(not(functx:is-value-in-sequence($group,$usergroups))) then
+        <option>{$group}</option>
+        else ()
+    }
+    </select>
+};
+
+declare function user:get-user-groups($node as node(), $model as map(*)){
+    <select multiple="multiple" class="form-control" name="userGroups" id="userGroups">{
+    let $username := request:get-parameter('username',())
+    let $usergroups := sm:get-user-groups($username)
+    for $group in $usergroups
+    return
+        <option>{$group}</option>
+    }
+    </select>
+};
+

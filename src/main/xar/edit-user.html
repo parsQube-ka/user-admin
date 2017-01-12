@@ -13,6 +13,11 @@
     var badColor = "#ff6666";
     //Compare the values in the password field 
     //and the confirmation field
+    if(pass1.value == '' &amp;&amp; pass2.value == ''){
+        message.innerHTML = "";
+        pass2.style.backgroundColor = "#ffffff";
+        document.getElementById('save').style.display = ""
+    }else{
     if(pass1.value == pass2.value){
         //The passwords match. 
         //Set the color to the good color and inform
@@ -29,6 +34,7 @@
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!";
         document.getElementById('save').style.display = "none"
+    }
     }
 }  
 
@@ -84,6 +90,10 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" name="description" id="description" data-template="user:get-description" placeholder="This person is lazy, who has no description left."/>
+            </div>
+            <div class="form-group">
                 <label for="password" class="text-danger">If you don't want to change your password, please leave the field empty.</label>
                 <label for="password1">Password:</label>
                 <input type="password" name="password1" id="password1" class="form-control" placeholder="password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
@@ -92,8 +102,12 @@
                 <span id="confirmMessage" class="confirmMessage"/>
             </div>
             <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" name="description" id="description" data-template="user:get-description" placeholder="This person is lazy, who has no description left."/>
+                <label for="availableGroups">Add user to available groups:</label>
+                <select data-template="user:get-available-groups"/>
+            </div>
+            <div class="form-group">
+                <label for="userGroups">Remove user from available groups:</label>
+                <select data-template="user:get-user-groups"/>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" id="save" name="save" type="submit">Save</button>
