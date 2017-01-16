@@ -3,13 +3,18 @@
     <div class="row">
         <div class="col-md-12">
             <div class="page-header">
-                <h1 data-template="config:app-title">Generated page</h1>
+                <h1>Übersicht:</h1>
             </div>
         </div>
     </div>
     <div class="row">
-        <div data-template="user:list-users"/>
+        <table data-template="user:list-users"/>
     </div>
+    <script>
+    $(document).ready( function () {
+    $('#userlist').DataTable();
+    } );
+    </script>
     <div class="row text-right">
         <a href="add-user.html" class="btn btn-primary">add user</a>
     </div>

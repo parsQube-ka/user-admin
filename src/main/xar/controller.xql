@@ -10,7 +10,7 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
-if (not(sm:id()//sm:username[. = 'admin'])) then (login:login($exist:path,sm:id())[0]) else (),
+if (not(sm:id()//sm:group[. = 'dba'])) then (login:login($exist:path,sm:id())[0]) else (),
 
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -31,7 +31,7 @@ else if (contains($exist:path, "/$shared/")) then
         </forward>
     </dispatch>
 
-else if (not(sm:id()//sm:username[. = 'admin'])) then
+else if (not(sm:id()//sm:group[. = 'dba'])) then
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="login.html"/>
             <view>

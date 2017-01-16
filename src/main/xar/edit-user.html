@@ -58,61 +58,68 @@
         }
     }
     </script>
-    <div class="col-md-4">
-        <form method="post" action="update-user.xql">
+    <form method="post" action="update-user.xql">
+        <div class="form-group">
             <input type="hidden" name="username" data-template="user:get-username" data-template-target-attr="value"/>
             <div class="form-group">
                 <label for="username" data-template="user:get-username">Username:</label>
             </div>
-            <div class="form-group">
-                <label for="firstname">Firstname:</label>
-                <input type="text" name="firstname" id="firstname" class="form-control" data-template="user:get-firstname" placeholder="firstname"/>
-                <label for="lastname">Lastname:</label>
-                <input type="text" name="lastname" id="lastname" class="form-control" data-template="user:get-lastname" placeholder="lastname"/>
-                <label for="fullname">Fullname:</label>
-                <input type="text" name="fullname" id="fullname" class="form-control" data-template="user:get-fullname" placeholder="fullname"/>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="alert alert-danger">If you don't want to change your password, please leave the field empty.</div>
+                    <label for="password1">Password:</label>
+                    <input type="password" name="password1" id="password1" class="form-control" placeholder="password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
+                    <label for="password2">Confirm your password:</label>
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="confirm your password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
+                    <span id="confirmMessage" class="confirmMessage"/>
+                </div>
+                <div class="form-group">
+                    <label for="availableGroups">Add user to available groups:</label>
+                    <select data-template="user:get-available-groups"/>
+                </div>
+                <div class="form-group">
+                    <label for="userGroups">Remove user from available groups:</label>
+                    <select data-template="user:get-user-groups"/>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">E-Mail:</label>
-                <input type="text" name="email" id="email" class="form-control" data-template="user:get-email" placeholder="email"/>
-                <span id="checkEmail" class="checkEmail"/>
+            <div class="col-md-1"/>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstname">Firstname:</label>
+                    <input type="text" name="firstname" id="firstname" class="form-control" data-template="user:get-firstname" placeholder="firstname"/>
+                    <label for="lastname">Lastname:</label>
+                    <input type="text" name="lastname" id="lastname" class="form-control" data-template="user:get-lastname" placeholder="lastname"/>
+                    <label for="fullname">Fullname:</label>
+                    <input type="text" name="fullname" id="fullname" class="form-control" data-template="user:get-fullname" placeholder="fullname"/>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-Mail:</label>
+                    <input type="text" name="email" id="email" class="form-control" data-template="user:get-email" placeholder="email"/>
+                    <span id="checkEmail" class="checkEmail"/>
+                </div>
+                <div class="form-group">
+                    <label for="language">Language:</label>
+                    <select class="form-control input-sm" name="language" id="language" data-template="user:get-language">
+                        <option>EN</option>
+                        <option>DE</option>
+                    </select>
+                    <label for="timezone">Timezone:</label>
+                    <select class="form-control input-sm" name="timezone" id="timezone" data-template="user:get-timezone">
+                        <option>GMT</option>
+                        <option>CET</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" name="description" id="description" data-template="user:get-description" placeholder="This person is lazy, who has no description left."/>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="language">Language:</label>
-                <select class="form-control input-sm" name="language" id="language" data-template="user:get-language">
-                    <option>EN</option>
-                    <option>DE</option>
-                </select>
-                <label for="timezone">Timezone:</label>
-                <select class="form-control input-sm" name="timezone" id="timezone" data-template="user:get-timezone">
-                    <option>GMT</option>
-                    <option>CET</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" name="description" id="description" data-template="user:get-description" placeholder="This person is lazy, who has no description left."/>
-            </div>
-            <div class="form-group">
-                <label for="password" class="text-danger">If you don't want to change your password, please leave the field empty.</label>
-                <label for="password1">Password:</label>
-                <input type="password" name="password1" id="password1" class="form-control" placeholder="password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
-                <label for="password2">Confirm your password:</label>
-                <input type="password" name="password2" id="password2" class="form-control" placeholder="confirm your password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
-                <span id="confirmMessage" class="confirmMessage"/>
-            </div>
-            <div class="form-group">
-                <label for="availableGroups">Add user to available groups:</label>
-                <select data-template="user:get-available-groups"/>
-            </div>
-            <div class="form-group">
-                <label for="userGroups">Remove user from available groups:</label>
-                <select data-template="user:get-user-groups"/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" id="save" name="save" type="submit">Save</button>
-                <button class="btn btn-default" name="cancel" onClick="self.close();">Cancel</button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="row col-md-9 text-center">
+            <button class="btn btn-primary" id="save" name="save" type="submit">Save</button>
+            <button class="btn btn-default" id="cancel" name="cancel" style="margin-left:10px" onClick="self.close();">Cancel</button>
+        </div>
+    </form>
 </div>

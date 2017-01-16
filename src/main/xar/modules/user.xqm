@@ -68,8 +68,8 @@ declare function user:get-timezone($node as node(), $model as map(*)){
 };
 
 declare function user:get-group($node as node(), $model as map(*)){
-  <select class="form-control input-sm" id="usergroup" name="usergroup" required="required">
-    <option disabled="disabled" selected="selected">Set user primary here</option>
+  <select class="form-control input-sm" id="usergroup" name="usergroup">
+    <option selected="selected" value="primary">Set user primary here</option>
     {
      let $groups := sm:list-groups()
      for $group in $groups
@@ -91,32 +91,41 @@ declare function user:get-groups($node as node(), $model as map(*)){
 };
 
 declare function user:list-users($node as node(), $model as map(*)){
-<table class="table table-bordered text-center">
+<table class="table table-striped table-bordered text-center" name="userlist" id="userlist">
+    <thead>
     <tr>
-        <th class="text-center">username</th><th class="text-center">group</th>
-        {for $key in sm:get-account-metadata-keys()
-            return
-                <th class="text-center">{functx:substring-after-last($key,"/")}</th>
-        }
-        <th class="text-center">edit</th>
-        <th class="text-center">delete</th>
+        <th>username</th>
+        <th>primary group</th>
+        <th>user groups</th>
+        <th>fullname</th>
+        <th>email</th>
+        <th>language</th>
+        <th>timezone</th>
+        <th>description</th>
+        <th>edit</th>
+        <th>delete</th>
     </tr>
+    </thead>
+    <tbody>
 {let $users := sm:list-users()
 for $user in $users
-return <tr>
-    <td>{$user}</td><td>{sm:get-user-groups($user)}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/namePerson/friendly"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/namePerson/first"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/namePerson/last"))}</td>
+return
+    <tr>
+    <td>{$user}</td>
+    <td>{sm:get-user-primary-group($user)}</td>
+    <td>{sm:get-user-groups($user)}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/namePerson"))}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/contact/email"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/contact/country/home"))}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/language"))}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/timezone"))}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://exist-db.org/security/description"))}</td>
     <td><a href="edit-user.html?username={escape-uri($user, true())}" target="_blank" class="btn btn-primary">edit</a></td>
-    <td><a href="delete-user.html?username={escape-uri($user, true())}" class="btn btn-danger">delete</a></td>
+    {if($user eq 'admin') then (<td></td>)
+    else if ($user eq xmldb:get-current-user()) then(<td></td>)
+    else
+    (<td><a href="confirm-delete-user.html?username={escape-uri($user, true())}" class="btn btn-danger">delete</a></td>)}
 </tr>}
+    </tbody>
 </table>
 };
 
@@ -147,9 +156,14 @@ declare function user:save-user($username as xs:string, $email as xs:string, $fi
     else ()
 };
 
-declare function user:create-user($username as xs:string,$password as xs:string,$group as xs:string,$groups as xs:string*,$email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $add-to as xs:string*, $remove-from as xs:string*){
-  sm:create-account($username,$password,$group,$groups),
-  user:save-user($username,$email,$firstname,$lastname,$fullname,$language,$timezone,$description,$password,$add-to,$remove-from)
+declare function user:create-user($username as xs:string,$password as xs:string,$group as xs:string*,$groups as xs:string*,$email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $add-to as xs:string*, $remove-from as xs:string*){
+   
+    if($group eq 'primary') then (
+        sm:create-account($username,$password,$groups))
+    else(
+        sm:create-account($username,$password,$group,$groups)),
+    user:save-user($username,$email,$firstname,$lastname,$fullname,$language,$timezone,$description,$password,$add-to,$remove-from)
+    
 };
 
 declare function user:create-user($node as node(), $model as map(*)){
@@ -168,13 +182,14 @@ let $add-to := request:get-parameter("availableGroups",())
 let $remove-from := request:get-parameter("userGroups",())
 return
     user:create-user($username,$password,$group,$groups,$email,$firstname,$lastname,$fullname,$language,$timezone,$description,$add-to,$remove-from),
-
 let $username := request:get-parameter("username",())
 return
     if(sm:user-exists($username)) then
         <div>
-        <div class="alert alert-success">New user "{$username}" has been created. </div>
-        <a href="add-user.html" class="btn btn-primary">Create another new user.</a><a href="list-users.html" style="margin-left: 10px" class="btn btn-info">Back to user list.</a>
+            <div class="alert alert-success">New user "{$username}" has been created. </div>
+            <a href="add-user.html" class="btn btn-primary">Create another new user.</a>
+            <a href="list-users.html" style="margin-left: 10px" class="btn btn-info">Back to user list.</a>
+            <a href="edit-user.html?username={$username}" style="margin-left: 10px" class="btn btn-warning">Something wrong? Directly to edit user "{$username}".</a>
         </div>
     else
         <div>
@@ -224,3 +239,12 @@ declare function user:get-user-groups($node as node(), $model as map(*)){
     </select>
 };
 
+declare function user:confirm-delete-user($node as node(), $model as map(*)){
+    let $username := request:get-parameter('username',())
+    return
+    <div>
+        <div class="alert alert-danger">Do your really want to delete user "{$username}" ?</div>
+        <a href="delete-user.html?username={escape-uri($username, true())}" class="btn btn-danger">Delete</a>
+        <a href="list-users.html" class="btn btn-info" style="margin-left: 10px">Cancel</a>
+    </div>
+};

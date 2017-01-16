@@ -8,7 +8,7 @@ import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 import module namespace session="http://exist-db.org/xquery/session";
 
 import module namespace config="http://parsqube.de/ifv/user-admin/config" at "/db/apps/user-admin2/modules/config.xqm";
-
+import module namespace functx = "http://www.functx.com";
 
 declare %templates:wrap
 function login:username($node as node(), $model as map(*), $username as xs:string*) {
@@ -31,16 +31,22 @@ declare function login:login($exist-path,$id){
     let $username := request:get-parameter("username",())
     let $password := request:get-parameter("password",())
     return
-    if($id eq 'admin') then
+    if($id//group[. = 'dba']) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="list-users.html"/>
     </dispatch>
-    else if(not($username eq 'admin')) then (request:set-attribute('login-error', 'Please login with dba account.'))
+    else
+        if(empty($username)) then (
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <redirect url="login.html"/>
+            </dispatch>    
+            )
     else if(xmldb:login($config:app-root,$username,$password,true())) then (
-        util:log('info', "login successsful"),
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="list-users.html"/>
-    </dispatch>
-    )
+        if(not(sm:get-user-groups($username) = 'dba')) then (request:set-attribute('login-error', 'Please login with dba account.'))
+        else(
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                <redirect url="list-users.html"/>
+            </dispatch> )
+        )
     else (request:set-attribute('login-error', 'Login failed. Please try again with the right password.'))
 };

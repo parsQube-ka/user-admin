@@ -13,7 +13,6 @@
     var badColor = "#ff6666";
     //Compare the values in the password field 
     //and the confirmation field
-    if(pass1.value != '' &amp;&amp; pass2.value != ''){
     if(pass1.value == pass2.value){
         //The passwords match. 
         //Set the color to the good color and inform
@@ -30,12 +29,7 @@
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!";
         document.getElementById('create').style.display = "none"
-    }}else{
-        pass2.style.backgroundColor = badColor;
-        message.style.color = badColor;
-        message.innerHTML = "Passwords Cannot Be Empty!";
     }
-
 }
     function checkEmail(){
         var email = document.getElementById('email');
@@ -57,30 +51,33 @@
         }
     }
     </script>
-    <div class="col-md-4">
-        <div class="alert alert-info">
-            <p>All fields with * are required</p>
-        </div>
-        <form method="post" action="create-user.html">
+    <form method="post" action="create-user.html">
+        <div class="col-md-4">
+            <div class="alert alert-info">
+                <p>All fields with * are required</p>
+            </div>
             <div class="form-group">
                 <label for="username">*Username:</label>
                 <input type="text" name="username" id="username" class="form-control" placeholder="username" required="required"/>
             </div>
             <div class="form-group">
-                <label for="password1">*Password:</label>
-                <input type="password" name="password1" id="password1" class="form-control" placeholder="password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;" required="required"/>
-                <label for="password2">*Confirm your password:</label>
-                <input type="password" name="password2" id="password2" class="form-control" placeholder="confirm your password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;" required="required"/>
+                <label for="password1">Password:</label>
+                <input type="password" name="password1" id="password1" class="form-control" placeholder="password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
+                <label for="password2">Confirm your password:</label>
+                <input type="password" name="password2" id="password2" class="form-control" placeholder="confirm your password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
                 <span id="confirmMessage" class="confirmMessage"/>
             </div>
             <div class="form-group">
-                <label for="usergroup">*User primary group:</label>
+                <label for="usergroup">User primary group:</label>
                 <select data-template="user:get-group">select group here</select>
             </div>
             <div class="form-group">
                 <label for="usergroups">Other available groups:</label>
                 <select data-template="user:get-groups">select groups here</select>
             </div>
+        </div>
+        <div class="col-md-1"/>
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="firstname">Firstname:</label>
                 <input type="text" name="firstname" id="firstname" class="form-control" placeholder="firstname"/>
@@ -110,10 +107,10 @@
                 <label for="description">Description:</label>
                 <textarea class="form-control" name="description" id="description" placeholder="This person is lazy, who has no description left."/>
             </div>
-            <div class="form-group text-right">
-                <button class="btn btn-primary" id="create" name="create" type="submit">Create</button>
-                <a href="list-users.html" class="btn btn-info" style="margin-left: 10px" role="button">Cancel</a>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="row col-md-9 text-center">
+            <button class="btn btn-primary" id="create" name="create" type="submit">Create</button>
+            <a href="list-users.html" class="btn btn-info" style="margin-left: 10px" role="button">Cancel</a>
+        </div>
+    </form>
 </div>
