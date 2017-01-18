@@ -11,8 +11,13 @@
         <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <link rel="stylesheet" type="text/css" href="resources/css/dataTables.bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/buttons.bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/buttons.dataTables.css"/>
         <script type="text/javascript" src="resources/js/jquery.dataTables.js"/>
         <script type="text/javascript" src="resources/js/dataTables.bootstrap.js"/>
+        <script type="text/javascript" src="resources/js/buttons.bootstrap.js"/>
+        <script type="text/javascript" src="resources/js/buttons.colVis.js"/>
+        <script type="text/javascript" src="resources/js/dataTables.buttons.js"/>
         <script type="text/javascript" src="$shared/resources/js/bootstrap-3.0.3.min.js"/>
     </head>
     <body id="body">
@@ -33,6 +38,9 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
+                    <li id="logout" data-template="user:get-logout">
+                        <a>logout</a>
+                    </li>
                     <li id="info">
                         <a href="info.html">Info</a>
                     </li>

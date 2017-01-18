@@ -68,12 +68,16 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <div class="alert alert-danger">If you don't want to change your password, please leave the field empty.</div>
+                    <div class="alert alert-info">If you don't want to change the password, please leave the field empty.</div>
                     <label for="password1">Password:</label>
                     <input type="password" name="password1" id="password1" class="form-control" placeholder="password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
                     <label for="password2">Confirm your password:</label>
                     <input type="password" name="password2" id="password2" class="form-control" placeholder="confirm your password" onfocus="checkPass(); return false;" onkeyup="checkPass(); return false;"/>
                     <span id="confirmMessage" class="confirmMessage"/>
+                </div>
+                <div class="form-group">
+                    <label for="primaryGroup">Primary group:</label>
+                    <select data-template="user:get-primary-group"/>
                 </div>
                 <div class="form-group">
                     <label for="availableGroups">Add user to available groups:</label>
@@ -101,15 +105,9 @@
                 </div>
                 <div class="form-group">
                     <label for="language">Language:</label>
-                    <select class="form-control input-sm" name="language" id="language" data-template="user:get-language">
-                        <option>EN</option>
-                        <option>DE</option>
-                    </select>
+                    <select class="form-control input-sm" name="language" id="language" data-template="user:get-language"/>
                     <label for="timezone">Timezone:</label>
-                    <select class="form-control input-sm" name="timezone" id="timezone" data-template="user:get-timezone">
-                        <option>GMT</option>
-                        <option>CET</option>
-                    </select>
+                    <select class="form-control input-sm" name="timezone" id="timezone" data-template="user:get-timezone"/>
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>

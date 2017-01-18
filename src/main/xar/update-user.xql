@@ -4,7 +4,7 @@ import module namespace user="http://parsqube.de/ifv/user-admin/user" at "/db/ap
 
 let $username := request:get-parameter("username",())
 return (
- user:save-user($username,request:get-parameter("email",()),request:get-parameter("firstname",()),request:get-parameter("lastname",()),request:get-parameter("fullname",()),request:get-parameter("language",()),request:get-parameter("timezone",()),request:get-parameter("description",()),request:get-parameter("password1",()),request:get-parameter("availableGroups",()),request:get-parameter("userGroups",())),
- response:redirect-to(xs:anyURI("edit-user.html?username=" || escape-uri($username, true())))
+ user:save-user($username,request:get-parameter("email",()),request:get-parameter("firstname",()),request:get-parameter("lastname",()),request:get-parameter("fullname",()),request:get-parameter("language",()),request:get-parameter("timezone",()),request:get-parameter("description",()),request:get-parameter("password1",()),request:get-parameter("availableGroups",()),request:get-parameter("userGroups",()),request:get-parameter("primaryGroup",())),
+ response:redirect-to(xs:anyURI("list-users.html"))
 
 )

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<languages>
+    <language>
+        <name>English</name>
+        <code>en</code>
+    </language>
+    <language>
+        <name>Deutsch</name>
+        <code>de</code>
+    </language>
+    <language>
+        <name>Français</name>
+        <code>fr</code>
+    </language>
+</languages>

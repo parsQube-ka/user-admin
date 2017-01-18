@@ -69,11 +69,11 @@
             </div>
             <div class="form-group">
                 <label for="usergroup">User primary group:</label>
-                <select data-template="user:get-group">select group here</select>
+                <select data-template="user:primary-group">select group here</select>
             </div>
             <div class="form-group">
                 <label for="usergroups">Other available groups:</label>
-                <select data-template="user:get-groups">select groups here</select>
+                <select data-template="user:list-groups">select groups here</select>
             </div>
         </div>
         <div class="col-md-1"/>
@@ -93,15 +93,9 @@
             </div>
             <div class="form-group">
                 <label for="language">Language:</label>
-                <select class="form-control input-sm" name="language" id="language">
-                    <option>EN</option>
-                    <option>DE</option>
-                </select>
+                <select class="form-control input-sm" name="language" id="language" data-template="user:get-all-languages"/>
                 <label for="timezone">Timezone:</label>
-                <select class="form-control input-sm" name="timezone" id="timezone">
-                    <option>GMT</option>
-                    <option>CET</option>
-                </select>
+                <select class="form-control input-sm" name="timezone" id="timezone" data-template="user:get-all-timezones"/>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
