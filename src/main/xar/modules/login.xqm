@@ -42,11 +42,11 @@ declare function login:login($exist-path,$id){
             </dispatch>    
             )
     else if(xmldb:login($config:app-root,$username,$password,true())) then (
-        if(not(sm:get-user-groups($username) = 'dba')) then (request:set-attribute('login-error', 'Please login with dba account.'))
+        if(not(sm:get-user-groups($username) = 'dba')) then (request:set-attribute('login-error', 'Bitte melden Sie sich mit dba Benutzer an.'))
         else(
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                 <redirect url="list-users.html"/>
             </dispatch> )
         )
-    else (request:set-attribute('login-error', 'Login failed. Please try again with the right password.'))
+    else (request:set-attribute('login-error', 'Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut mit dem richtigen Passwort.'))
 };

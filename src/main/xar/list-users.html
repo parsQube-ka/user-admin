@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>Übersicht:</h1>
-            </div>
-        </div>
-    </div>
-    <div class="row">
         <table data-template="user:list-users"/>
     </div>
     <script>
 $(document).ready(function() {
     var table = $('#userlist').DataTable( {
-        dom:    "&lt;'row'&lt;'col-sm-3'l&gt;&lt;'col-sm-8'f&gt;&lt;'col-sm-1'B&gt;&gt;" +
+        dom:    "&lt;'row'&lt;'col-sm-3'l&gt;&lt;'col-sm-7'f&gt;&lt;'col-sm-2'B&gt;&gt;" +
                 "&lt;'row'&lt;'col-sm-12'tr&gt;&gt;" +
                 "&lt;'row'&lt;'col-sm-5'i&gt;&lt;'col-sm-7'p&gt;&gt;",
+        
+        "language": { url: "resources/configuration/de_DE.txt" },
+        
         lengthMenu: [
             [ 10, 25, 50, -1 ],
             [ '10', '25', '50', 'all' ]
         ],
+        
         columnDefs: [
         { "targets": [-1, -2], "orderable": false},
         { "targets": [5, 6, 7], "visible": false}
         ],
+        
         buttons:
             [
             {
                 extend: 'colvis',
-                text: 'spalten',
+                text: 'sichtbare Spalten',
                 columns: ':gt(0)'
             }
             ]
     } );
     
-    
 } );
     </script>
     <div class="row text-right">
-        <a href="add-user.html" class="btn btn-primary">add user</a>
+        <a href="add-user.html" class="btn btn-primary">Benutzer hinzufügen</a>
     </div>
 </div>

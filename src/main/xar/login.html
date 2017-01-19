@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div class="col-md-4">
-        <form method="post">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" required="required" class="input-xlarge form-control login:username" placeholder="username"/>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" class="input-xlarge form-control login:password" placeholder="password"/>
-            </div>
-            <div class="control-group error">
-                <label class="control-label login:error">Input with error</label>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" name="login" type="submit">Login</button>
-            </div>
-        </form>
+    <div class="col-md-12 text-center">
+        <div class="bs-callout bs-callout-primary" style="padding-bottom: 250px">
+            <h4>Anmeldung</h4>
+            <form method="post" class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+                <div class="control-group error">
+                    <div class="alert alert-danger login:error">Input with error</div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Benutzername:</label>
+                    <input type="text" name="username" id="username" required="required" class="input-xlarge form-control login:username" placeholder="username"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Passwort:</label>
+                    <input type="password" name="password" id="password" class="input-xlarge form-control login:password" placeholder="password"/>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" name="login" type="submit">Anmelden</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -729,7 +729,12 @@ h1[id] {
 .bs-callout-info h4 {
   color: #1b809e;
 }
-
+.bs-callout-primary {
+    border-left-color: #428bca;
+}
+.bs-callout-primary h4 {
+    color: #428bca;
+}
 
 /*
  * Color swatches

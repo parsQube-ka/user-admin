@@ -16,7 +16,7 @@ declare function user:get-username($node as node(), $model as map(*), $target-at
             templates:process($node/*, $model)
         }
     else
-        <label for="username">Username: {$username}</label>
+        <label for="username">Benutzername: {$username}</label>
 };
 
 declare function user:get-email($node as node(), $model as map(*)){
@@ -56,8 +56,8 @@ declare function user:get-language($node as node(), $model as map(*)){
     <select name="language" id="language" class="form-control input-sm">{
     let $user-language := sm:get-account-metadata(request:get-parameter('username',()),xs:anyURI("http://axschema.org/pref/language"))
     return
-        if(empty($user-language))then(<option selected="selected" value="">select language here</option>) 
-        else (<option value="">select language here</option>),
+        if(empty($user-language))then(<option selected="selected" value="">Sprache auswählen</option>) 
+        else (<option value="">Sprache auswählen</option>),
         let $user-language := sm:get-account-metadata(request:get-parameter('username',()),xs:anyURI("http://axschema.org/pref/language"))
         for $language in doc("/db/apps/user-admin2/resources/configuration/languages.xml")//language   
         return
@@ -70,7 +70,7 @@ declare function user:get-language($node as node(), $model as map(*)){
 
 declare function user:get-all-languages($node as node(), $model as map(*)){
     <select name="language" id="language" class="form-control input-sm">
-        <option value="">select language here</option>
+        <option value="">Sprache auswählen</option>
         {for $language in doc("/db/apps/user-admin2/resources/configuration/languages.xml")//language 
         return
         <option>{$language/name}</option>}
@@ -82,8 +82,8 @@ declare function user:get-timezone($node as node(), $model as map(*)){
     {
         let $user-timezone := sm:get-account-metadata(request:get-parameter('username',()),xs:anyURI("http://axschema.org/pref/timezone"))
         return
-        if(empty($user-timezone)) then (<option selected="selected" value="">select timezone here</option>)
-        else(<option value="">select timezone here</option>),
+        if(empty($user-timezone)) then (<option selected="selected" value="">Zeitzone auswählen</option>)
+        else(<option value="">Zeitzone auswählen</option>),
         let $user-timezone := sm:get-account-metadata(request:get-parameter('username',()),xs:anyURI("http://axschema.org/pref/timezone"))
         for $timezone in doc("/db/apps/user-admin2/resources/configuration/timezones.xml")//timezone
         return
@@ -96,7 +96,7 @@ declare function user:get-timezone($node as node(), $model as map(*)){
 
 declare function user:get-all-timezones($node as node(), $model as map(*)){
     <select name="timezone" id="timezone" class="form-control input-sm">
-        <option value="">select timezone here</option>
+        <option value="">Zeitzone auswählen</option>
         {
             for $timezone in doc("/db/apps/user-admin2/resources/configuration/timezones.xml")//timezone
             return
@@ -107,7 +107,7 @@ declare function user:get-all-timezones($node as node(), $model as map(*)){
 
 declare function user:primary-group($node as node(), $model as map(*)){
   <select class="form-control input-sm" id="usergroup" name="usergroup">
-    <option selected="selected" value="primary">Set user primary here</option>
+    <option selected="selected" value="primary">Stellen Sie hier die primäre Gruppe ein</option>
     {
      let $groups := sm:list-groups()
      for $group in $groups
@@ -129,19 +129,21 @@ declare function user:list-groups($node as node(), $model as map(*)){
 };
 
 declare function user:list-users($node as node(), $model as map(*)){
+<div class="bs-callout bs-callout-primary"  style="padding-bottom: 40px">
+<h4>Übersicht</h4>
+<hr style="margin-bottom: 20px"/>
 <table class="table table-striped table-bordered text-center" name="userlist" id="userlist">
     <thead>
     <tr>
-        <th>username</th>
-        <th>primary group</th>
-        <th>user groups</th>
-        <th>fullname</th>
-        <th>email</th>
-        <th>language</th>
-        <th>timezone</th>
-        <th>description</th>
-        <th>edit</th>
-        <th>delete</th>
+        <th class="text-center">Benutzername</th>
+        <th class="text-center">Primäre Gruppe</th>
+        <th class="text-center">Benutzergruppen</th>
+        <th class="text-center">vollständiger Name</th>
+        <th class="text-center">E-Mail</th>
+        <th class="text-center">Sprache</th>
+        <th class="text-center">Zeitzone</th>
+        <th class="text-center">Beschreibung</th>
+        <th class="text-center">Aktion</th>
     </tr>
     </thead>
     <tbody>
@@ -157,14 +159,15 @@ return
     <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/language"))}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/timezone"))}</td>
     <td>{sm:get-account-metadata($user,xs:anyURI("http://exist-db.org/security/description"))}</td>
-    <td><a href="edit-user.html?username={escape-uri($user, true())}" class="btn btn-primary">edit</a></td>
-    {if($user eq 'admin') then (<td></td>)
-    else if ($user eq xmldb:get-current-user()) then(<td></td>)
+    <td><a href="edit-user.html?username={escape-uri($user, true())}" class="btn btn-primary">Bearbeiten</a>
+    {if($user eq 'admin') then ()
+    else if ($user eq xmldb:get-current-user()) then()
     else
-    (<td><a href="confirm-delete-user.html?username={escape-uri($user, true())}" class="btn btn-danger">delete</a></td>)}
-</tr>}
+    (<a style="margin-left: 10px" href="confirm-delete-user.html?username={escape-uri($user, true())}" class="btn btn-danger">Löschen</a>)}
+</td></tr>}
     </tbody>
 </table>
+</div>
 };
 
 declare function user:save-user($username as xs:string, $email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $password as xs:string, $add-to as xs:string*, $remove-from as xs:string*, $primary-group as xs:string){
@@ -225,15 +228,15 @@ let $username := request:get-parameter("username",())
 return
     if(sm:user-exists($username)) then
         <div>
-            <div class="alert alert-success">New user "{$username}" has been created. </div>
-            <a href="add-user.html" class="btn btn-primary">Create another new user.</a>
-            <a href="list-users.html" style="margin-left: 10px" class="btn btn-info">Back to user list.</a>
-            <a href="edit-user.html?username={$username}" style="margin-left: 10px" class="btn btn-warning">Something wrong? Directly to edit user "{$username}".</a>
+            <div class="alert alert-success">Neuer Benutzer "{$username}" wurde erstellt. </div>
+            <a href="add-user.html" class="btn btn-primary">Erstellen Sie einen neuen Benutzer.</a>
+            <a href="list-users.html" style="margin-left: 10px" class="btn btn-info">Zurück zur Benutzerliste.</a>
+            <a href="edit-user.html?username={$username}" style="margin-left: 10px" class="btn btn-warning">Etwas stimmt nicht? Direkt zum Bearbeiten des Benutzers "{$username}".</a>
         </div>
     else
         <div>
-        <div class="alert alert-danger">New user "{$username}" has not been created. </div>
-        <a href="add-user.html" class="btn btn-primary">Try again.</a>
+        <div class="alert alert-danger">Neuer Benutzer "{$username}" wurde nicht erstellt.</div>
+        <a href="add-user.html" class="btn btn-primary">Versuch es noch einmal.</a>
         </div>
 };
 
@@ -243,13 +246,13 @@ declare function user:delete-user($node as node(), $model as map(*)){
     return
     if(sm:user-exists($username)) then
     <div>
-        <div class="alert alert-danger">User "{$username}" has not been deleted.</div>
-        <a href="list-users.html" class="btn btn-info">Back to user list and try again.</a>
+        <div class="alert alert-danger">Benutzer "{$username}" wurde nicht gelöscht.</div>
+        <a href="list-users.html" class="btn btn-info">Zurück zur Benutzerliste und versuchen Sie es erneut.</a>
     </div>
     else
     <div>
-        <div class="alert alert-success">User "{$username}" has been deleted.</div>
-        <a href="list-users.html" class="btn btn-info">Back to user list.</a>
+        <div class="alert alert-success">Benutzer "{$username}" wurde gelöscht.</div>
+        <a href="list-users.html" class="btn btn-info">Zurück zur Benutzerliste.</a>
     </div>
 };
 
@@ -282,15 +285,15 @@ declare function user:confirm-delete-user($node as node(), $model as map(*)){
     let $username := request:get-parameter('username',())
     return
     <div>
-        <div class="alert alert-danger">Do your really want to delete user "{$username}" ?</div>
-        <a href="delete-user.html?username={escape-uri($username, true())}" class="btn btn-danger">Delete</a>
-        <a href="list-users.html" class="btn btn-info" style="margin-left: 10px">Cancel</a>
+        <div class="alert alert-danger">Möchten Sie wirklich löschen den Benutzer "{$username}" ?</div>
+        <a href="delete-user.html?username={escape-uri($username, true())}" class="btn btn-danger">Löschen</a>
+        <a href="list-users.html" class="btn btn-info" style="margin-left: 10px">Abbrechen</a>
     </div>
 };
 
 declare function user:get-logout($node as node(), $model as map(*)){
     if(sm:get-user-groups(xmldb:get-current-user()) = 'dba') then
-    <li id="logout"><a href="logout.html?logout=1">logout</a></li>
+    <li id="logout"><a href="logout.html?logout=1">Abmelden</a></li>
     else ()
 };
 
