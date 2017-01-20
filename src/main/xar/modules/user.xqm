@@ -129,9 +129,7 @@ declare function user:list-groups($node as node(), $model as map(*)){
 };
 
 declare function user:list-users($node as node(), $model as map(*)){
-<div class="bs-callout bs-callout-primary"  style="padding-bottom: 40px">
-<h4>Übersicht</h4>
-<hr style="margin-bottom: 20px"/>
+
 <table class="table table-striped table-bordered text-center" name="userlist" id="userlist">
     <thead>
     <tr>
@@ -167,7 +165,6 @@ return
 </td></tr>}
     </tbody>
 </table>
-</div>
 };
 
 declare function user:save-user($username as xs:string, $email as xs:string, $firstname as xs:string, $lastname as xs:string, $fullname as xs:string, $language as xs:string, $timezone as xs:string, $description as xs:string, $password as xs:string, $add-to as xs:string*, $remove-from as xs:string*, $primary-group as xs:string){

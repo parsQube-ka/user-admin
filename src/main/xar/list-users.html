@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="row">
-        <table data-template="user:list-users"/>
+        <div class="bs-callout bs-callout-primary" style="padding-bottom: 50px">
+            <h4>Übersicht</h4>
+            <hr/>
+            <table data-template="user:list-users"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a href="add-user.html" class="btn btn-primary">Benutzer hinzufügen</a>
+        </div>
     </div>
     <script>
 $(document).ready(function() {
     var table = $('#userlist').DataTable( {
-        dom:    "&lt;'row'&lt;'col-sm-3'l&gt;&lt;'col-sm-7'f&gt;&lt;'col-sm-2'B&gt;&gt;" +
+        dom:    "&lt;'row'&lt;'col-sm-3'l&gt;&lt;'col-sm-8'f&gt;&lt;'col-sm-1'B&gt;&gt;" +
                 "&lt;'row'&lt;'col-sm-12'tr&gt;&gt;" +
                 "&lt;'row'&lt;'col-sm-5'i&gt;&lt;'col-sm-7'p&gt;&gt;",
         
@@ -26,7 +35,7 @@ $(document).ready(function() {
             [
             {
                 extend: 'colvis',
-                text: 'sichtbare Spalten',
+                text: 'Sicht',
                 columns: ':gt(0)'
             }
             ]
@@ -34,7 +43,4 @@ $(document).ready(function() {
     
 } );
     </script>
-    <div class="row text-right">
-        <a href="add-user.html" class="btn btn-primary">Benutzer hinzufügen</a>
-    </div>
 </div>
