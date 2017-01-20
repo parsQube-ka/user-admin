@@ -58,8 +58,8 @@
         }
     }
     </script>
-    <div class="bs-callout bs-callout-primary col-md-10 col-md-offset-1">
-        <h4>Benutzer bearbeiten</h4>
+    <div class="col-md-10 col-md-offset-1">
+        <h4 style="color: #428bca">Benutzer bearbeiten</h4>
         <hr/>
         <form method="post" action="update-user.xql">
             <div class="form-group text-center">
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-5 bs-callout bs-callout-primary col-md-offset-1" style="margin-top: 0px">
+                <div class="col-md-5 col-md-offset-1" style="margin-top: 0px">
                     <div class="form-group">
                         <div class="alert alert-info">Wenn Sie das Passwort nicht ändern möchten, lassen Sie das Feld bitte leer.</div>
                         <label for="password1">Passwort:</label>
@@ -91,7 +91,7 @@
                         <select data-template="user:get-user-groups"/>
                     </div>
                 </div>
-                <div class="col-md-5 bs-callout bs-callout-primary" style="margin-left: 20px; margin-top: 0px; padding-bottom: 55px">
+                <div class="col-md-5" style="margin-left: 20px; margin-top: 0px; padding-bottom: 55px">
                     <div class="form-group">
                         <label for="firstname">Vorname:</label>
                         <input type="text" name="firstname" id="firstname" class="form-control" data-template="user:get-firstname" placeholder="Vorname"/>
@@ -119,7 +119,7 @@
             </div>
             <div class="row text-center">
                 <button class="btn btn-primary" id="save" name="save" style="margin-left:20px" type="submit">Speichern</button>
-                <button class="btn btn-default" id="cancel" name="cancel" style="margin-left:20px" onClick="self.close();">Abbrechen</button>
+                <a href="list-users.html" class="btn btn-default" id="cancel" name="cancel" style="margin-left:20px">Abbrechen</a>
             </div>
         </form>
     </div>

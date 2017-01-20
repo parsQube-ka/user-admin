@@ -130,7 +130,7 @@ declare function user:list-groups($node as node(), $model as map(*)){
 
 declare function user:list-users($node as node(), $model as map(*)){
 
-<table class="table table-striped table-bordered text-center" name="userlist" id="userlist">
+<table class="table table-striped table-bordered" name="userlist" id="userlist">
     <thead>
     <tr>
         <th class="text-center">Benutzername</th>
@@ -149,19 +149,19 @@ declare function user:list-users($node as node(), $model as map(*)){
 for $user in $users
 return
     <tr>
-    <td>{$user}</td>
-    <td>{sm:get-user-primary-group($user)}</td>
-    <td>{sm:get-user-groups($user)}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/namePerson"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/contact/email"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/language"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/timezone"))}</td>
-    <td>{sm:get-account-metadata($user,xs:anyURI("http://exist-db.org/security/description"))}</td>
-    <td><a href="edit-user.html?username={escape-uri($user, true())}" class="btn btn-primary">Bearbeiten</a>
+    <td class="text-center">{$user}</td>
+    <td class="text-center">{sm:get-user-primary-group($user)}</td>
+    <td class="text-center">{sm:get-user-groups($user)}</td>
+    <td class="text-center">{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/namePerson"))}</td>
+    <td class="text-center">{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/contact/email"))}</td>
+    <td class="text-center">{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/language"))}</td>
+    <td class="text-center">{sm:get-account-metadata($user,xs:anyURI("http://axschema.org/pref/timezone"))}</td>
+    <td class="text-center">{sm:get-account-metadata($user,xs:anyURI("http://exist-db.org/security/description"))}</td>
+    <td><a href="edit-user.html?username={escape-uri($user, true())}" style="margin-left:25px" class="btn btn-primary">Bearbeiten</a>
     {if($user eq 'admin') then ()
     else if ($user eq xmldb:get-current-user()) then()
     else
-    (<a style="margin-left: 10px" href="confirm-delete-user.html?username={escape-uri($user, true())}" class="btn btn-danger">Löschen</a>)}
+    (<a style="margin-left: 25px" href="delete-user.html?username={escape-uri($user, true())}" class="btn btn-danger">Löschen</a>)}
 </td></tr>}
     </tbody>
 </table>
@@ -238,6 +238,15 @@ return
 };
 
 declare function user:delete-user($node as node(), $model as map(*)){
+    let $username := request:get-parameter("username",())
+    return
+    if(empty(request:get-parameter('confirm',()))) then
+    <div>
+        <div class="alert alert-danger">Möchten Sie wirklich den Benutzer "{$username}" löschen?</div>
+        <a href="delete-user.html?username={escape-uri($username, true())}&amp;confirm=1" class="btn btn-danger">Löschen</a>
+        <a href="list-users.html" class="btn btn-info" style="margin-left: 10px">Abbrechen</a>
+    </div>
+    else(
     sm:remove-account(request:get-parameter("username",())),
     let $username := request:get-parameter("username",())
     return
@@ -251,6 +260,7 @@ declare function user:delete-user($node as node(), $model as map(*)){
         <div class="alert alert-success">Benutzer "{$username}" wurde gelöscht.</div>
         <a href="list-users.html" class="btn btn-info">Zurück zur Benutzerliste.</a>
     </div>
+    )
 };
 
 declare function user:get-available-groups($node as node(), $model as map(*)){
@@ -276,16 +286,6 @@ declare function user:get-user-groups($node as node(), $model as map(*)){
         <option>{$group}</option>
     }
     </select>
-};
-
-declare function user:confirm-delete-user($node as node(), $model as map(*)){
-    let $username := request:get-parameter('username',())
-    return
-    <div>
-        <div class="alert alert-danger">Möchten Sie wirklich löschen den Benutzer "{$username}" ?</div>
-        <a href="delete-user.html?username={escape-uri($username, true())}" class="btn btn-danger">Löschen</a>
-        <a href="list-users.html" class="btn btn-info" style="margin-left: 10px">Abbrechen</a>
-    </div>
 };
 
 declare function user:get-logout($node as node(), $model as map(*)){

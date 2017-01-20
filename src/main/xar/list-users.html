@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="row">
-        <div class="bs-callout bs-callout-primary" style="padding-bottom: 50px">
-            <h4>Übersicht</h4>
-            <hr/>
-            <table data-template="user:list-users"/>
-        </div>
+        <h4 style="color: #428bca">Übersicht</h4>
+        <hr/>
+        <table data-template="user:list-users"/>
     </div>
     <div class="row">
+        <hr/>
         <div class="col-md-12 text-right">
             <a href="add-user.html" class="btn btn-primary">Benutzer hinzufügen</a>
         </div>
@@ -35,7 +34,7 @@ $(document).ready(function() {
             [
             {
                 extend: 'colvis',
-                text: 'Sicht',
+                text: 'Spalten',
                 columns: ':gt(0)'
             }
             ]
