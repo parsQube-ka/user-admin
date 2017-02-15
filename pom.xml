@@ -23,7 +23,7 @@
   <distributionManagement>
     <repository>
       <id>parsqube-internal</id>
-      <url>http://perseus.fritz.box/archiva/repository/internal/</url>
+      <url>http://repo.pq/archiva/repository/internal/</url>
     </repository>
   </distributionManagement>
 
@@ -37,7 +37,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
   	<xar.target>user-admin2</xar.target>
-  	<xar.name>http://parsqube.de/ifv/user-admin</xar.name>
+  	<xar.name>http://parsqube.de/exist/user-admin</xar.name>
 		<xar.status>alpha</xar.status>
 		<xar.author>parsQube GmbH</xar.author>
 		<xar.license />
