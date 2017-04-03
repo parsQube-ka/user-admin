@@ -4,8 +4,6 @@ module namespace user="http://parsqube.de/ifv/user-admin/user";
 
 import module namespace templates="http://exist-db.org/xquery/templates";
 
-import module namespace functx = "http://www.functx.com";
-
 declare function user:get-username($node as node(), $model as map(*), $target-attr) {
     let $username := request:get-parameter('username',())
     return
@@ -270,7 +268,7 @@ declare function user:get-available-groups($node as node(), $model as map(*)){
     let $usergroups := sm:get-user-groups($username)
     for $group in $groups
     return
-        if(not(functx:is-value-in-sequence($group,$usergroups))) then
+        if(not($group = $usergroups)) then
         <option>{$group}</option>
         else ()
     }

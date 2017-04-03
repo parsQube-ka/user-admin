@@ -8,7 +8,6 @@ import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 import module namespace session="http://exist-db.org/xquery/session";
 
 import module namespace config="http://parsqube.de/ifv/user-admin/config" at "/db/apps/user-admin2/modules/config.xqm";
-import module namespace functx = "http://www.functx.com";
 
 declare %templates:wrap
 function login:username($node as node(), $model as map(*), $username as xs:string*) {
