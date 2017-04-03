@@ -3,7 +3,7 @@
 
 	<groupId>de.parsqube.exist</groupId>
 	<artifactId>user-admin</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 
 	<name>Benutzerverwaltung</name>
 	<description>Benutzerverwaltung mit Unterstützung für erweiterte Attribute</description>
@@ -18,7 +18,7 @@
   <scm>
     <connection>scm:git:git@perseus:de/parsqube/exist/user-admin</connection>
   	<developerConnection>scm:git:git@perseus:de/parsqube/exist/user-admin</developerConnection>
-    <tag>HEAD</tag>
+    <tag>user-admin-0.2</tag>
   </scm>
 
   <distributionManagement>
